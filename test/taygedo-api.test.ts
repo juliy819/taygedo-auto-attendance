@@ -148,9 +148,10 @@ describe('TaygedoApi', () => {
       expect.objectContaining({
         method: 'POST',
         headers: expect.objectContaining({
-          authorization: 'access-token',
+          Authorization: 'access-token',
           uid: 'uid-1',
           deviceid: 'device-1',
+          ds: expect.any(String),
         }),
       }),
     )

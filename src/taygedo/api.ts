@@ -403,18 +403,15 @@ export class TaygedoApi {
   }
 
   async appSignin(accessToken: string, uid: string, deviceId: string): Promise<{ exp: number, goldCoin: number }> {
-    const response = await this.fetchImpl(`${TAYGEDO_BASE_URL}/apihub/api/signin`, {
+    const request = buildNativeRequest({
+      accessToken,
+      uid,
+      deviceId,
       method: 'POST',
-      headers: {
-        authorization: accessToken,
-        uid,
-        deviceid: deviceId,
-        appversion: '1.1.0',
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'User-Agent': 'okhttp/4.12.0',
-      },
-      body: 'communityId=1',
+      path: '/apihub/api/signin',
+      body: { communityId: 1 },
     })
+    const response = await this.fetchImpl(request.url, request.init)
 
     const data = await readJson(response, 'appSignin') as {
       code?: number
